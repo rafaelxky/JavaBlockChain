@@ -17,11 +17,11 @@ public class Chain {
         blockChain.add(Genesis.createBlock());
     }
 
-    public Block newBlock(){
+    public Block getNewBlock(){
         return new Block(transactionPool.get(TRANSACTION_LIMIT), blockChain.getLast().hash);
     }
 
-    public boolean addTransaction(Transaction transaction){
+    public boolean addTransactionToPool(Transaction transaction){
         if (!Validation.isTransactionValid(transaction)) {
             return false;
         }
@@ -35,7 +35,7 @@ public class Chain {
         return true;
     }
 
-    public boolean addBlock(Block block){
+    public boolean addBlockToChain(Block block){
         IO.println("Trying to add block");
         if (!Validation.isBlockValid(block, this)){
             IO.println("Block not valid");

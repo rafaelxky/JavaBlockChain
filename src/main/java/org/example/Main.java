@@ -38,18 +38,18 @@ public class Main {
 
         transaction1.sign(signature);
 
-        IO.println("Transaction " + (chain.addTransaction(transaction)?"was successfully":"was not successfully"));
-        IO.println("Malicious transaction " + (chain.addTransaction(transaction1)?"was not blocked":"was blocked"));
+        IO.println("Transaction " + (chain.addTransactionToPool(transaction)?"was successfully":"was not successfully"));
+        IO.println("Malicious transaction " + (chain.addTransactionToPool(transaction1)?"was not blocked":"was blocked"));
 
-        var block = Miner.mineBlock(chain.newBlock());
+        var block = Miner.mineBlock(chain.getNewBlock());
 
-        var falseBlock = chain.newBlock();
+        var falseBlock = chain.getNewBlock();
         falseBlock.hash = block.hash;
         falseBlock.nonce = block.nonce;
 
         IO.println("BLOCK - " + block);
-        IO.println("block added - " + (chain.addBlock(block)?"successfully":"not successfully"));
-        IO.println("fake block - " + (chain.addBlock(falseBlock)?"not blocked":"blocked"));
+        IO.println("block added - " + (chain.addBlockToChain(block)?"successfully":"not successfully"));
+        IO.println("fake block - " + (chain.addBlockToChain(falseBlock)?"not blocked":"blocked"));
 
         IO.println("Acc1 balance - " + chain.getBalance(account1.publicKey));
         IO.println("Acc2 balance - " + chain.getBalance(account2.publicKey));
