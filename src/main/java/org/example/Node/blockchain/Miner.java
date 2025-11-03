@@ -17,7 +17,6 @@ public class Miner {
             block.nonce += 1;
             hash = Validation.getBlockHash(block);
             IO.println("nonce - " + block.nonce);
-            IO.println("block hash - " + hash);
         }
         return block;
     }
