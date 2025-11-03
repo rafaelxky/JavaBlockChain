@@ -42,6 +42,12 @@ public class Validation {
         }
         IO.println("block hash valid");
 
+        if(!block.previousHash.equals(chain.blockChain.getLast().hash)){
+            IO.println("Block previous hash mismatch");
+            return false;
+        }
+        IO.println("Block previous hash matches");
+
         for (Transaction transaction : block.transactions){
             if (isTransactionInChain(transaction, chain.blockChain)){
                 return false;

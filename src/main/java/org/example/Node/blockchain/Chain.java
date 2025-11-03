@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Chain {
+    // todo: mining reward
     public static int TRANSACTION_LIMIT = 20;
     public List<Block> blockChain = new ArrayList<>();
     public TransactionPool transactionPool = new TransactionPool();
