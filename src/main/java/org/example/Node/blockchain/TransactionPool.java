@@ -20,7 +20,7 @@ public class TransactionPool {
     }
 
     public void addTransaction(Transaction transaction) {
-        if (Validation.isTransactionValid(transaction)) {
+        if (Validation.isTransactionHashValid(transaction)) {
             this.transactions.add(transaction);
         }
     }

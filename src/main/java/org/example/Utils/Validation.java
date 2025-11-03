@@ -10,18 +10,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Validation {
-    public static boolean isTransactionValid(Transaction transaction){
-        if (transaction.receiver.equals(transaction.emitter)){
-            return false;
-        }
+    public static boolean isTransactionHashValid(Transaction transaction){
         var message = Utf8.stringToBytes(transaction.getData());
         var signature = transaction.hash;
         var key = transaction.emitter;
         return RsaEncryption.rsaVerify(message, signature, key);
     }
-    public static boolean areTransactionsValid(List<Transaction> transactions){
+
+    public static boolean areTransactionsValid(List<Transaction> transactions, Chain chain){
         for (Transaction transaction : transactions){
-            if (!isTransactionValid(transaction)){
+            if (!chain.checkTransactionAgainstBlockChain(transaction)){
                 return false;
             }
         }
@@ -30,11 +28,11 @@ public class Validation {
 
     public static boolean isBlockValid(Block block, Chain chain){
 
-        if (!areTransactionsValid(block.transactions)){
-            IO.println("block hash invalid");
+        if (!areTransactionsValid(block.transactions, chain)){
+            IO.println("Invalid transactions in block");
             return false;
         }
-        IO.println("transactions valid");
+        IO.println("transactions valid in block");
 
         if (!isBlockHashValid(block)){
             IO.println("block hash invalid");
@@ -42,11 +40,13 @@ public class Validation {
         }
         IO.println("block hash valid");
 
-        if(!block.previousHash.equals(chain.blockChain.getLast().hash)){
+        if(!block.previousHash.equals(chain.blockChain.getLast().hash) || block.previousHash == null){
             IO.println("Block previous hash mismatch");
             return false;
         }
         IO.println("Block previous hash matches");
+
+
 
         for (Transaction transaction : block.transactions){
             if (isTransactionInChain(transaction, chain.blockChain)){
@@ -55,12 +55,23 @@ public class Validation {
             if (isTransactionInPool(transaction, chain.transactionPool)){
                 return false;
             }
+            if (transaction.amount > chain.getBalance(transaction.emitter)){
+                return false;
+            }
         }
         return true;
     }
 
     public static boolean isBlockHashValid(Block block){
-        return getBlockHash(block).startsWith("0".repeat(Miner.DIFFICULTY));
+        if (block.hash == null ) {
+            IO.println("Block invalid: block hash is null");
+            return false;
+        }
+        if (!getBlockHash(block).startsWith("0".repeat(Miner.DIFFICULTY))){
+            IO.println("Block invalid: block hash does not comply with challenge");
+            return false;
+        }
+        return true;
     }
 
     public static String getBlockHash(Block block){

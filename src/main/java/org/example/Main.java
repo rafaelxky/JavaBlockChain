@@ -11,6 +11,7 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) {
         Chain chain = new Chain();
+        IO.println("chain" + chain);
 
         Account account1 = new Account(RsaGeneration.generateRsaKeyPair());
         Account account2 = new Account(RsaGeneration.generateRsaKeyPair());
@@ -20,13 +21,13 @@ public class Main {
         Random random = new Random();
 
         Transaction transaction = new Transaction(
-                account1.publicKey,
+                genesis.publicKey,
                 account2.publicKey,
                 100,
                 random.nextInt()
         );
 
-        var signature = RsaEncryption.rsaEncrypt(transaction.getData(), account1.privateKey);
+        var signature = RsaEncryption.rsaEncrypt(transaction.getData(), genesis.privateKey);
         transaction.sign(signature);
 
         Transaction transaction1 = new Transaction(
@@ -41,7 +42,9 @@ public class Main {
         IO.println("Transaction " + (chain.addTransactionToPool(transaction)?"was successfully":"was not successfully"));
         IO.println("Malicious transaction " + (chain.addTransactionToPool(transaction1)?"was not blocked":"was blocked"));
 
-        var block = Miner.mineBlock(chain.getNewBlock());
+        var non_mined_block = chain.getNewBlock();
+        IO.println("New block --------------------------------------------------- " + non_mined_block);
+        var block = Miner.mineBlock(non_mined_block);
 
         var falseBlock = chain.getNewBlock();
         falseBlock.hash = block.hash;

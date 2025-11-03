@@ -12,6 +12,8 @@ public class Block {
     public Long nonce;
 
     public Block(List<Transaction> pool, String previousHash){
+        IO.println("BLock constructor called, previous hash - " + previousHash);
+        // hash is ok here
         transactions = pool;
         this.previousHash = previousHash;
     }
@@ -32,6 +34,9 @@ public class Block {
         for (Transaction transaction : transactions){
             stringBuilder.append("Transaction: \n");
             stringBuilder.append(transaction);
+            stringBuilder.append("\n");
+            stringBuilder.append("Previous hash: \n");
+            stringBuilder.append(previousHash);
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();

@@ -8,7 +8,7 @@ import org.example.Utils.Validation;
 import java.security.PublicKey;
 
 public class Miner {
-    public static int DIFFICULTY = 2;
+    public static int DIFFICULTY = 1;
 
     public static Block mineBlock(Block block){
         block.nonce = 0L;
@@ -18,6 +18,7 @@ public class Miner {
             hash = Validation.getBlockHash(block);
             IO.println("nonce - " + block.nonce);
         }
+        block.hash = hash;
         return block;
     }
 }

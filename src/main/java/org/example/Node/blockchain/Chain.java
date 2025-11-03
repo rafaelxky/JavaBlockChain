@@ -19,29 +19,54 @@ public class Chain {
     }
 
     public Block getNewBlock(){
+        IO.println("creating new Block");
         return new Block(transactionPool.get(TRANSACTION_LIMIT), blockChain.getLast().hash);
     }
 
     public boolean addTransactionToPool(Transaction transaction){
-        if (!Validation.isTransactionValid(transaction)) {
+        IO.println("Adding transaction to pool!");
+        if (checkTransactionAgainstBlockChain(transaction)) {
+            IO.println("Transaction added!");
+            transactionPool.addTransaction(transaction);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkTransactionAgainstBlockChain(Transaction transaction){
+        IO.println("Checking transaction against blockchain");
+        if (transaction.receiver.equals(transaction.emitter)){
+            IO.println("transaction invalid: emitter and receiver are equal");
+            return false;
+        }
+        if (!Validation.isTransactionHashValid(transaction)) {
+            IO.println("transaction invalid: hash mismatch");
+            return false;
+        }
+        if (transaction.amount > getBalance(transaction.emitter)){
+            IO.println("Transaction invalid: emitter doesn't have enough balance");
             return false;
         }
         if (Validation.isTransactionInChain(transaction, blockChain)){
+            IO.println("Transaction invalid: repeated transaction in chain");
             return false;
         }
         if (Validation.isTransactionInPool(transaction, transactionPool)){
+            IO.println("Transaction invalid: transaction already in pool");
             return false;
         }
-        transactionPool.addTransaction(transaction);
+
         return true;
     }
 
     public boolean addBlockToChain(Block block){
-        IO.println("Trying to add block");
+        IO.println("Trying to add block - " + block);
+
         if (!Validation.isBlockValid(block, this)){
             IO.println("Block not valid");
             return false;
         }
+
         IO.println("Block valid");
         blockChain.add(block);
         return true;
