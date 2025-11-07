@@ -2,7 +2,6 @@ package org.example.Node.blockchain.Persistence.BlockChain;
 
 import org.example.Node.blockchain.Models.Block;
 import org.example.Node.blockchain.Models.Transaction;
-import org.example.Node.blockchain.Validation.IBlockValidator;
 
 import java.security.PublicKey;
 import java.util.ArrayList;
@@ -11,16 +10,11 @@ import java.util.List;
 public class InMemoryBlockChain implements IBlockChainRepository{
 
     public List<Block> blockChain = new ArrayList<>();
-    public IBlockValidator blockValidator;
 
     public InMemoryBlockChain(){}
 
     public void setBlockChain(List<Block> blockChain){
         this.blockChain = blockChain;
-    }
-
-    public void setBlockValidator(IBlockValidator blockValidator) {
-        this.blockValidator = blockValidator;
     }
 
     @Override
@@ -34,18 +28,9 @@ public class InMemoryBlockChain implements IBlockChainRepository{
     }
 
     @Override
-    public boolean addBlockToChain(Block block) {
-        IO.println("Trying to add block - " + block);
-
-        if (!blockValidator.isBlockValid(block)){
-            IO.println("Block not valid");
-            return false;
-        }
-
-        IO.println("Block valid");
+    public void addBlockToChain(Block block) {
+        IO.println("Adding block!");
         blockChain.add(block);
-        return true;
-
     }
 
     @Override

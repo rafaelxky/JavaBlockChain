@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         ChainFactory chainFactory = new ChainFactory();
         var chain = chainFactory.newInMemoryChain();
-        var miner = new Miner();
+        var miner = chain.getMiner();
         var logger = new Logger();
         logger.logChain(chain);
 
@@ -51,7 +51,7 @@ public class Main {
 
         var non_mined_block = chain.getNewBlock();
         IO.println("New block --------------------------------------------------- " + non_mined_block);
-        var block = Miner.mineBlock(non_mined_block);
+        var block = miner.mineBlock(non_mined_block);
 
         var falseBlock = chain.getNewBlock();
         falseBlock.hash = block.hash;

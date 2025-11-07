@@ -6,8 +6,8 @@ import java.security.PublicKey;
 import java.util.List;
 
 public interface IBlockChainRepository {
-    public List<Block> getAllBLocks();
-    public Block getLastBlock();
-    public boolean addBlockToChain(Block block);
-    public int getBalance(PublicKey wallet);
+    List<Block> getAllBLocks();
+    Block getLastBlock();
+    void addBlockToChain(Block block);
+    int getBalance(PublicKey wallet);
 }
