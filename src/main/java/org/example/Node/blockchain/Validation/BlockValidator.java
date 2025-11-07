@@ -24,7 +24,8 @@ public class BlockValidator implements IBlockValidator{
     }
 
     public String getBlockHash(Block block){
-        var blockHash = Base64.base64BytesToString(Sha.sha256Encrypt(Utf8.stringToBytes(block.getData() + block.nonce)));
+        var blockData = block.getData() + block.getNonce();
+        var blockHash = Base64.base64BytesToString(Sha.sha256Encrypt(Utf8.stringToBytes(blockData)));
         IO.println("blockHash - " + blockHash);
         return blockHash;
     }
@@ -34,7 +35,7 @@ public class BlockValidator implements IBlockValidator{
     }
 
     public boolean isBlockHashValid(String blockHash){
-        if (blockHash == null ) {
+        if (blockHash == null) {
             IO.println("Block invalid: block hash is null");
             return false;
         }
@@ -45,12 +46,16 @@ public class BlockValidator implements IBlockValidator{
         return true;
     }
 
+    public boolean doesBlockHashMatchData(Block block){
+        return block.getHash().equals(getBlockHash(block));
+    }
+
     public boolean isPreviousHashValid(String previousHash){
         return (previousHash == null || previousHash.equals(blockChainRepository.getLastBlock().hash));
     }
 
     public boolean isBlockValid(Block block){
-        var blockHash = getBlockHash(block);
+        var blockHash = block.getHash();
         var previousHash = block.previousHash;
 
         if (!transactionValidator.areTransactionsValid(block.transactions)){
@@ -67,6 +72,10 @@ public class BlockValidator implements IBlockValidator{
 
         if(!isPreviousHashValid(previousHash)){
             IO.println("Block previous hash mismatch");
+            return false;
+        }
+        if (!doesBlockHashMatchData(block)){
+            IO.println("block hash invalid");
             return false;
         }
 
