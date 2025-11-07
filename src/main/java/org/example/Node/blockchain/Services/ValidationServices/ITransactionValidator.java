@@ -1,4 +1,4 @@
-package org.example.Node.blockchain.Validation;
+package org.example.Node.blockchain.Services.ValidationServices;
 
 import org.example.Node.blockchain.Models.Transaction;
 

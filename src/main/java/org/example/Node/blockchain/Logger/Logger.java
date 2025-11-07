@@ -15,7 +15,7 @@ public class Logger implements ILogger{
             stringBuilder.append(transaction);
             stringBuilder.append("\n");
             stringBuilder.append("Previous hash: \n");
-            stringBuilder.append(block.previousHash);
+            stringBuilder.append(block.getPreviousHash());
             stringBuilder.append("\n");
         }
         IO.println(stringBuilder.toString());

@@ -1,4 +1,4 @@
-package org.example.Node.blockchain.Validation;
+package org.example.Node.blockchain.Services.ValidationServices;
 
 import org.example.Node.blockchain.Chain.Chain;
 import org.example.Node.blockchain.Models.Block;
@@ -42,7 +42,7 @@ public class TransactionValidator implements ITransactionValidator{
     }
     private boolean isTransactionRepeatedInBlockChain(Transaction transaction, List<Block> blockChain){
         for (Block block : blockChain){
-            for (Transaction transactionInChain : block.transactions){
+            for (Transaction transactionInChain : block.getTransactions()){
                 if (Arrays.equals(transaction.hash, transactionInChain.hash)){
                     return true;
                 }

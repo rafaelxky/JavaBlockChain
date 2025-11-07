@@ -20,7 +20,7 @@ public class Genesis {
         List<Transaction> transactionPool = new ArrayList<>();
         transactionPool.add(transaction);
         var block =  new Block(transactionPool, "0");
-        block.hash = "0";
+        block.setHash("0");
         return block;
     }
 }

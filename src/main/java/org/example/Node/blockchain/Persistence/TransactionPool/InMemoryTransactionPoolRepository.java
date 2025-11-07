@@ -1,7 +1,7 @@
 package org.example.Node.blockchain.Persistence.TransactionPool;
 
 import org.example.Node.blockchain.Models.Transaction;
-import org.example.Node.blockchain.Validation.ITransactionValidator;
+import org.example.Node.blockchain.Services.ValidationServices.ITransactionValidator;
 
 import java.util.ArrayList;
 import java.util.List;

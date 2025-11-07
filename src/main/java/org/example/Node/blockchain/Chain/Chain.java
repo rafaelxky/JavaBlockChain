@@ -1,13 +1,12 @@
 package org.example.Node.blockchain.Chain;
 
-import org.example.Node.blockchain.Genesis;
 import org.example.Node.blockchain.Miner;
 import org.example.Node.blockchain.Models.Block;
 import org.example.Node.blockchain.Models.Transaction;
 import org.example.Node.blockchain.Persistence.BlockChain.IBlockChainRepository;
 import org.example.Node.blockchain.Persistence.TransactionPool.ITransactionPoolRepository;
-import org.example.Node.blockchain.Validation.IBlockValidator;
-import org.example.Node.blockchain.Validation.ITransactionValidator;
+import org.example.Node.blockchain.Services.ValidationServices.IBlockValidator;
+import org.example.Node.blockchain.Services.ValidationServices.ITransactionValidator;
 
 import java.security.PublicKey;
 import java.util.List;

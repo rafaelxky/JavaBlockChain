@@ -1,10 +1,8 @@
-package org.example.Node.blockchain.Validation;
+package org.example.Node.blockchain.Services.ValidationServices;
 
-import org.example.Node.blockchain.Chain.Chain;
 import org.example.Node.blockchain.Miner;
 import org.example.Node.blockchain.Models.Block;
 import org.example.Node.blockchain.Persistence.BlockChain.IBlockChainRepository;
-import org.example.Node.blockchain.Persistence.TransactionPool.ITransactionPoolRepository;
 import org.example.Utils.Bytes.Base64;
 import org.example.Utils.Bytes.Utf8;
 import org.example.Utils.Sha.Sha;
@@ -23,8 +21,8 @@ public class BlockValidator implements IBlockValidator{
         this.blockChainRepository = blockChainRepository;
     }
 
-    public String getBlockHash(Block block){
-        var blockData = block.getData() + block.getNonce();
+    public String getBlockHash(Block block, Long nonce){
+        var blockData = block.getData() + nonce;
         var blockHash = Base64.base64BytesToString(Sha.sha256Encrypt(Utf8.stringToBytes(blockData)));
         IO.println("blockHash - " + blockHash);
         return blockHash;
@@ -47,18 +45,18 @@ public class BlockValidator implements IBlockValidator{
     }
 
     public boolean doesBlockHashMatchData(Block block){
-        return block.getHash().equals(getBlockHash(block));
+        return block.getHash().equals(getBlockHash(block, block.getNonce()));
     }
 
     public boolean isPreviousHashValid(String previousHash){
-        return (previousHash == null || previousHash.equals(blockChainRepository.getLastBlock().hash));
+        return (previousHash == null || previousHash.equals(blockChainRepository.getLastBlock().getHash()));
     }
 
     public boolean isBlockValid(Block block){
         var blockHash = block.getHash();
-        var previousHash = block.previousHash;
+        var previousHash = block.getPreviousHash();
 
-        if (!transactionValidator.areTransactionsValid(block.transactions)){
+        if (!transactionValidator.areTransactionsValid(block.getTransactions())){
             IO.println("Invalid transactions in block");
             return false;
         }

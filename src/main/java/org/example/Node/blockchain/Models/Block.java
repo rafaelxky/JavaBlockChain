@@ -3,13 +3,14 @@ package org.example.Node.blockchain.Models;
 import java.util.List;
 
 public class Block {
-    public List<Transaction> transactions;
-    public String previousHash;
-    public String hash;
-    public Long nonce;
+    private final List<Transaction> transactions;
+    private String previousHash;
+    private String hash;
+    private Long nonce;
+
 
     public Block(List<Transaction> pool, String previousHash){
-        IO.println("BLock constructor called, previous hash - " + previousHash);
+        IO.println("Block constructor called, previous hash - " + previousHash);
         this.transactions = List.copyOf(pool);
         this.previousHash = previousHash;
     }
@@ -21,16 +22,16 @@ public class Block {
         return this.previousHash;
     }
     public String getHash(){
-        return this.previousHash;
+        return this.hash;
     }
     public void setHash(String hash){
         this.hash = hash;
     }
-    public void setPreviousHash(String previousHash){
-        this.previousHash = previousHash;
-    }
     public Long getNonce(){
         return this.nonce;
+    }
+    public void setNonce(Long nonce) {
+        this.nonce = nonce;
     }
 
     public String getData(){

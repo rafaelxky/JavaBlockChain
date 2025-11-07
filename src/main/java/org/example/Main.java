@@ -54,8 +54,8 @@ public class Main {
         var block = miner.mineBlock(non_mined_block);
 
         var falseBlock = chain.getNewBlock();
-        falseBlock.hash = block.hash;
-        falseBlock.nonce = block.nonce;
+        falseBlock.setHash(block.getHash());
+        falseBlock.setNonce(block.getNonce());
 
         IO.println("BLOCK - " + block);
         IO.println("block added - " + (chain.addBlockToChain(block)?"successfully":"not successfully"));

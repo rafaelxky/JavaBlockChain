@@ -37,7 +37,7 @@ public class InMemoryBlockChain implements IBlockChainRepository{
     public int getBalance(PublicKey wallet) {
         var balance = 0;
         for (Block block : blockChain){
-            for (Transaction transaction : block.transactions){
+            for (Transaction transaction : block.getTransactions()){
                 if (transaction.receiver != null && transaction.receiver.equals(wallet)) {
                     balance += transaction.amount;
                     continue;

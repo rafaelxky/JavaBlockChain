@@ -1,7 +1,7 @@
 package org.example.Node.blockchain;
 
 import org.example.Node.blockchain.Models.Block;
-import org.example.Node.blockchain.Validation.IBlockValidator;
+import org.example.Node.blockchain.Services.ValidationServices.IBlockValidator;
 
 public class Miner {
     public static int DIFFICULTY = 1;
@@ -18,14 +18,17 @@ public class Miner {
     }
 
     public Block mineBlock(Block block){
-        block.nonce = 0L;
+        var nonce = 0L;
         String hash = "";
         while (!hash.startsWith("0".repeat(DIFFICULTY))){
-            block.nonce += 1;
-            hash = blockValidator.getBlockHash(block);
-            IO.println("nonce - " + block.nonce);
+            nonce += 1;
+            hash = blockValidator.getBlockHash(block, nonce);
+            IO.println("nonce - " + nonce);
         }
-        block.hash = hash;
+
+        block.setHash(hash);
+        block.setNonce(nonce);
+
         return block;
     }
 }

@@ -6,8 +6,8 @@ import org.example.Node.blockchain.Models.Block;
 import org.example.Node.blockchain.Models.Transaction;
 import org.example.Node.blockchain.Persistence.BlockChain.InMemoryBlockChain;
 import org.example.Node.blockchain.Persistence.TransactionPool.InMemoryTransactionPoolRepository;
-import org.example.Node.blockchain.Validation.BlockValidator;
-import org.example.Node.blockchain.Validation.TransactionValidator;
+import org.example.Node.blockchain.Services.ValidationServices.BlockValidator;
+import org.example.Node.blockchain.Services.ValidationServices.TransactionValidator;
 
 import java.util.ArrayList;
 import java.util.List;
