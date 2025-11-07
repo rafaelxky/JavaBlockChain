@@ -1,11 +1,6 @@
 package org.example.Node.blockchain;
 
-import org.example.Utils.Bytes.Base64;
-import org.example.Utils.Bytes.Utf8;
-import org.example.Utils.Sha.Sha;
-import org.example.Utils.Validation;
-
-import java.security.PublicKey;
+import org.example.Node.blockchain.Models.Block;
 
 public class Miner {
     public static int DIFFICULTY = 1;

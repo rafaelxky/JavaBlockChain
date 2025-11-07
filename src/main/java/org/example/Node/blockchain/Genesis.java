@@ -1,9 +1,10 @@
 package org.example.Node.blockchain;
 
+import org.example.Node.blockchain.Models.Block;
+import org.example.Node.blockchain.Models.Transaction;
 import org.example.Utils.rsa.RsaGeneration;
 
 import java.math.BigInteger;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

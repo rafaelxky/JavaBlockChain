@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.Node.blockchain.*;
 import org.example.Node.Account;
+import org.example.Node.blockchain.Models.Transaction;
 import org.example.Utils.Bytes.Utf8;
 import org.example.Utils.rsa.RsaEncryption;
 import org.example.Utils.rsa.RsaGeneration;
