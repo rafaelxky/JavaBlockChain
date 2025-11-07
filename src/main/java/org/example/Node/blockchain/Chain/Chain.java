@@ -10,6 +10,7 @@ import org.example.Node.blockchain.Validation.IBlockValidator;
 import org.example.Node.blockchain.Validation.ITransactionValidator;
 
 import java.security.PublicKey;
+import java.util.List;
 
 public class Chain implements IChain{
     // todo: mining reward
@@ -35,6 +36,10 @@ public class Chain implements IChain{
 
     public Miner getMiner() {
         return miner;
+    }
+
+    public List<Block> getAllBlocks(){
+        return this.blockChainRepository.getAllBLocks();
     }
 
     public Block getNewBlock(){

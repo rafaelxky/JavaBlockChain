@@ -36,7 +36,7 @@ public class Logger implements ILogger{
     @Override
     public void logChain(Chain chain){
         StringBuilder stringBuilder = new StringBuilder();
-        for (Block block : chain.blockChainRepository.getAllBLocks()){
+        for (Block block : chain.getAllBLocks()){
             stringBuilder.append(block);
             stringBuilder.append("\n");
         }
