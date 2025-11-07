@@ -9,7 +9,7 @@ import java.util.List;
 
 public class InMemoryBlockChain implements IBlockChainRepository{
 
-    public List<Block> blockChain = new ArrayList<>();
+    private List<Block> blockChain = new ArrayList<>();
 
     public InMemoryBlockChain(){}
 

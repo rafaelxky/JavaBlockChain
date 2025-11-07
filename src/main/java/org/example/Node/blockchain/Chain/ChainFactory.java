@@ -1,5 +1,6 @@
 package org.example.Node.blockchain.Chain;
 
+import org.example.Node.blockchain.Genesis;
 import org.example.Node.blockchain.Miner;
 import org.example.Node.blockchain.Models.Block;
 import org.example.Node.blockchain.Models.Transaction;
@@ -39,12 +40,16 @@ public class ChainFactory {
 
         miner.setBlockValidator(blockValidator);
 
-        return new Chain(
+        var factory = new Chain(
                 transactionPoolRepo,
                 blockChainRepo,
                 transactionValidator,
                 blockValidator,
                 miner
         );
+
+        blockChainRepo.addBlockToChain(Genesis.createBlock());
+
+        return factory;
     }
 }

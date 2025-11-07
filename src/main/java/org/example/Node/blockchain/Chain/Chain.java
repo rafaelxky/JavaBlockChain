@@ -14,11 +14,11 @@ import java.security.PublicKey;
 public class Chain implements IChain{
     // todo: mining reward
     public static int TRANSACTION_LIMIT = 20;
-    public IBlockChainRepository blockChainRepository;
-    public ITransactionPoolRepository transactionPoolRepository;
-    public ITransactionValidator transactionValidator;
-    public IBlockValidator blockValidator;
-    public Miner miner;
+    private final IBlockChainRepository blockChainRepository;
+    private final ITransactionPoolRepository transactionPoolRepository;
+    private final ITransactionValidator transactionValidator;
+    private final IBlockValidator blockValidator;
+    private final Miner miner;
 
     public Chain(ITransactionPoolRepository transactionPoolRepository,
                  IBlockChainRepository blockChainRepository,
@@ -30,7 +30,6 @@ public class Chain implements IChain{
         this.transactionPoolRepository = transactionPoolRepository;
         this.transactionValidator = transactionValidator;
         this.blockValidator = blockValidator;
-        blockChainRepository.addBlockToChain(Genesis.createBlock());
         this.miner = miner;
     }
 

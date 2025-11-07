@@ -8,8 +8,8 @@ import java.util.List;
 
 public class InMemoryTransactionPoolRepository implements ITransactionPoolRepository{
 
-    public List<Transaction> transactions;
-    public ITransactionValidator transactionValidator;
+    private List<Transaction> transactions;
+    private ITransactionValidator transactionValidator;
 
     public InMemoryTransactionPoolRepository(){}
 
