@@ -9,9 +9,7 @@ public class InMemoryTransactionPoolRepository implements ITransactionPoolReposi
 
     public List<Transaction> transactions = new ArrayList<>();
 
-    public InMemoryTransactionPoolRepository(){
-
-    }
+    public InMemoryTransactionPoolRepository(){}
 
     @Override
     public List<Transaction> getTransactions(int amount) {

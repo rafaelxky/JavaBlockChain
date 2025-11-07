@@ -1,5 +1,6 @@
 package org.example.Node.blockchain.Validation;
 
+import org.example.Node.blockchain.Chain.Chain;
 import org.example.Node.blockchain.Models.Block;
 import org.example.Node.blockchain.Persistence.BlockChain.IBlockChainRepository;
 import org.example.Node.blockchain.Persistence.TransactionPool.ITransactionPoolRepository;
@@ -11,15 +12,17 @@ import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.List;
 
-public class TransactionValidator {
+public class TransactionValidator implements ITransactionValidator{
 
-    private final IBlockChainRepository blockChainRepository;
-    private final ITransactionPoolRepository transactionPoolRepository;
+    private IBlockChainRepository blockChainRepository;
+    private ITransactionPoolRepository transactionPoolRepository;
 
-    public TransactionValidator(IBlockChainRepository blockChainRepository,
-                                ITransactionPoolRepository transactionPoolRepository
-    ){
+    public TransactionValidator(){}
+
+    public void setBlockChainRepository(IBlockChainRepository blockChainRepository){
         this.blockChainRepository = blockChainRepository;
+    }
+    public void setTransactionPoolRepository(ITransactionPoolRepository transactionPoolRepository){
         this.transactionPoolRepository = transactionPoolRepository;
     }
 
@@ -67,7 +70,7 @@ public class TransactionValidator {
 
     public boolean isTransactionValid(Transaction transaction) {
         // replace 20 later
-        var transactionPool = transactionPoolRepository.getTransactions(20);
+        var transactionPool = transactionPoolRepository.getTransactions(Chain.TRANSACTION_LIMIT);
         var blockChain = blockChainRepository.getAllBLocks();
 
         IO.println("Checking transaction against blockchain");

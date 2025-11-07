@@ -1,6 +1,6 @@
 package org.example.Node.blockchain.Logger;
 
-import org.example.Node.blockchain.Chain;
+import org.example.Node.blockchain.Chain.Chain;
 import org.example.Node.blockchain.Models.Block;
 import org.example.Node.blockchain.Models.Transaction;
 
@@ -32,6 +32,7 @@ public class Logger implements ILogger{
                 "\n";
         IO.println(stringBuilder);
     }
+
     @Override
     public void logChain(Chain chain){
         StringBuilder stringBuilder = new StringBuilder();
@@ -41,4 +42,5 @@ public class Logger implements ILogger{
         }
         IO.println(stringBuilder.toString());
     }
+
 }

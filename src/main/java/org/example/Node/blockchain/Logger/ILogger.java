@@ -1,6 +1,6 @@
 package org.example.Node.blockchain.Logger;
 
-import org.example.Node.blockchain.Chain;
+import org.example.Node.blockchain.Chain.Chain;
 import org.example.Node.blockchain.Models.Block;
 import org.example.Node.blockchain.Models.Transaction;
 

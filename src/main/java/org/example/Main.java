@@ -2,6 +2,9 @@ package org.example;
 
 import org.example.Node.blockchain.*;
 import org.example.Node.Account;
+import org.example.Node.blockchain.Chain.Chain;
+import org.example.Node.blockchain.Chain.ChainFactory;
+import org.example.Node.blockchain.Logger.Logger;
 import org.example.Node.blockchain.Models.Transaction;
 import org.example.Utils.Bytes.Utf8;
 import org.example.Utils.rsa.RsaEncryption;
@@ -11,8 +14,11 @@ import java.util.Random;
 
 public class Main {
     public static void main(String[] args) {
-        Chain chain = new Chain();
-        IO.println("chain" + chain);
+        ChainFactory chainFactory = new ChainFactory();
+        var chain = chainFactory.newInMemoryChain();
+        var miner = new Miner();
+        var logger = new Logger();
+        logger.logChain(chain);
 
         Account account1 = new Account(RsaGeneration.generateRsaKeyPair());
         Account account2 = new Account(RsaGeneration.generateRsaKeyPair());

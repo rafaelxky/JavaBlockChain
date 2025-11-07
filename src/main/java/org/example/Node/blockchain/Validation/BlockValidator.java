@@ -1,6 +1,6 @@
 package org.example.Node.blockchain.Validation;
 
-import org.example.Node.blockchain.Chain;
+import org.example.Node.blockchain.Chain.Chain;
 import org.example.Node.blockchain.Miner;
 import org.example.Node.blockchain.Models.Block;
 import org.example.Node.blockchain.Persistence.BlockChain.IBlockChainRepository;
@@ -11,24 +11,19 @@ import org.example.Utils.Sha.Sha;
 
 public class BlockValidator implements IBlockValidator{
 
-    private final ITransactionValidator transactionValidator;
-    private final IBlockChainRepository blockChainRepository;
-    private final ITransactionPoolRepository transactionPoolRepository;
-    private final Chain chain;
+    private ITransactionValidator transactionValidator;
+    private IBlockChainRepository blockChainRepository;
 
-    public BlockValidator(
-            ITransactionValidator transactionValidator,
-            IBlockChainRepository blockChainRepository,
-            ITransactionPoolRepository transactionPoolRepository,
-            Chain chain
-    ){
+    public BlockValidator(){}
+
+    public void setTransactionValidator(ITransactionValidator transactionValidator){
         this.transactionValidator = transactionValidator;
+    }
+    public void setBlockChainRepository(IBlockChainRepository blockChainRepository){
         this.blockChainRepository = blockChainRepository;
-        this.transactionPoolRepository = transactionPoolRepository;
-        this.chain = chain;
     }
 
-    public static String getBlockHash(Block block){
+    public String getBlockHash(Block block){
         var blockHash = Base64.base64BytesToString(Sha.sha256Encrypt(Utf8.stringToBytes(block.getData() + block.nonce)));
         IO.println("blockHash - " + blockHash);
         return blockHash;
