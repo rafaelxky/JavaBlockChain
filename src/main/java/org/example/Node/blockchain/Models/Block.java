@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Block {
     private final List<Transaction> transactions;
-    private String previousHash;
+    private final String previousHash;
     private String hash;
     private Long nonce;
 

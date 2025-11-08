@@ -19,6 +19,11 @@ public class InMemoryTransactionPoolRepository implements ITransactionPoolReposi
     }
 
     @Override
+    public List<Transaction> getAllTransactions() {
+        return transactions;
+    }
+
+    @Override
     public List<Transaction> pollTransactions(int amount) {
         var transactions = getTransactions(amount);
         removeTransactions(amount);

@@ -45,4 +45,14 @@ public class InMemoryBlockChain implements IBlockChainRepository{
         }
         return balance;
     }
+
+    @Override
+    public List<Integer> getBalance(List<Transaction> transactions) {
+        List<Integer> balances = new ArrayList<>();
+        for (Transaction transaction : transactions){
+            var balance = getBalance(transaction.emitter);
+            balances.add(balance);
+        }
+        return balances;
+    }
 }

@@ -16,6 +16,7 @@ public interface ITransactionValidator {
 
     boolean areTransactionsValid(
             List<Transaction> transactions,
+            List<Transaction> transactionsPool,
             List<Block> blocksChain,
             List<Integer> emittersBalance
     );

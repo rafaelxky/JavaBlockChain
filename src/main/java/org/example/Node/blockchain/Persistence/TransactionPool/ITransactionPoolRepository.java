@@ -7,7 +7,8 @@ import java.util.List;
 // impure
 public interface ITransactionPoolRepository {
     public List<Transaction> getTransactions(int amount);
+    public List<Transaction> getAllTransactions();
     public List<Transaction> pollTransactions(int amount);
     public void addTransaction(Transaction transaction);
-    public void removeTransactions(int amount);
+    void removeTransactions(int amount);
 }

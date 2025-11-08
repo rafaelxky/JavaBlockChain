@@ -37,17 +37,17 @@ public class Main {
         var signature = RsaEncryption.rsaEncrypt(transaction.getData(), genesis.privateKey);
         transaction.sign(signature);
 
-        Transaction transaction1 = new Transaction(
+        Transaction fakeTransaction = new Transaction(
                 account1.publicKey,
                 maliciousAccount.publicKey,
                 100,
                 random.nextInt()
         );
 
-        transaction1.sign(signature);
+        fakeTransaction.sign(signature);
 
-        IO.println("Transaction " + (chain.addTransactionToPool(transaction)?"was successfully":"was not successfully"));
-        IO.println("Malicious transaction " + (chain.addTransactionToPool(transaction1)?"was not blocked":"was blocked"));
+        IO.println("Legitimate transaction " + (chain.addTransactionToPool(transaction)?"was successfully":"was not successfully"));
+        IO.println("Malicious transaction " + (chain.addTransactionToPool(fakeTransaction)?"was not blocked":"was blocked"));
 
         var non_mined_block = chain.getNewBlock();
         IO.println("New block --------------------------------------------------- " + non_mined_block);

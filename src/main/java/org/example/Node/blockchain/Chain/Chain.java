@@ -13,6 +13,7 @@ import java.util.List;
 
 public class Chain implements IChain{
     // todo: mining reward
+    // impure
     public static int TRANSACTION_LIMIT = 20;
     private final IBlockChainRepository blockChainRepository;
     private final ITransactionPoolRepository transactionPoolRepository;
@@ -46,6 +47,7 @@ public class Chain implements IChain{
         IO.println("creating new Block");
         var lastBlockHash = blockChainRepository.getLastBlock().getHash();
         var transactions = transactionPoolRepository.pollTransactions(TRANSACTION_LIMIT);
+        IO.println("Last block hash - " + lastBlockHash);
         return createNewBlock(transactions, lastBlockHash);
     }
 
@@ -70,10 +72,22 @@ public class Chain implements IChain{
         return false;
     }
 
+    public String getLastBlockHash(){
+        var lastHash = blockChainRepository.getLastBlock().getHash();
+        IO.println("Getting last block hash - " + lastHash);
+        return lastHash;
+    }
+
     public boolean addBlockToChain(Block block){
         IO.println("Trying to add block - " + block);
 
-        if (!blockValidator.isBlockValid(block)){
+        if (!blockValidator.isBlockValid(
+                block,
+                getLastBlockHash(),
+                transactionPoolRepository.getTransactions(TRANSACTION_LIMIT),
+                blockChainRepository.getAllBLocks(),
+                blockChainRepository.getBalance(block.getTransactions())
+                )){
             IO.println("Block not valid");
             return false;
         }
