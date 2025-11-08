@@ -8,23 +8,21 @@ import java.util.List;
 
 public class InMemoryTransactionPoolRepository implements ITransactionPoolRepository{
 
-    private List<Transaction> transactions;
-    private ITransactionValidator transactionValidator;
+    private final List<Transaction> transactions = new ArrayList<>();
 
     public InMemoryTransactionPoolRepository(){}
-
-    public void setTransactions(List<Transaction> transactions) {
-        this.transactions = transactions;
-    }
-
-    public void setTransactionValidator(ITransactionValidator transactionValidator) {
-        this.transactionValidator = transactionValidator;
-    }
 
     @Override
     public List<Transaction> getTransactions(int amount) {
         var curated_amount =  Math.min(amount, transactions.size());
         return new ArrayList<>(this.transactions.subList(0, curated_amount));
+    }
+
+    @Override
+    public List<Transaction> pollTransactions(int amount) {
+        var transactions = getTransactions(amount);
+        removeTransactions(amount);
+        return transactions;
     }
 
     @Override
@@ -35,8 +33,6 @@ public class InMemoryTransactionPoolRepository implements ITransactionPoolReposi
 
     @Override
     public void addTransaction(Transaction transaction) {
-        if (transactionValidator.isTransactionValid(transaction)) {
-            this.transactions.add(transaction);
-        }
+        this.transactions.add(transaction);
     }
 }

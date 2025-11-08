@@ -12,12 +12,8 @@ public class BlockValidator implements IBlockValidator{
     private ITransactionValidator transactionValidator;
     private IBlockChainRepository blockChainRepository;
 
-    public BlockValidator(){}
-
-    public void setTransactionValidator(ITransactionValidator transactionValidator){
+    public BlockValidator(ITransactionValidator transactionValidator, IBlockChainRepository blockChainRepository) {
         this.transactionValidator = transactionValidator;
-    }
-    public void setBlockChainRepository(IBlockChainRepository blockChainRepository){
         this.blockChainRepository = blockChainRepository;
     }
 

@@ -7,7 +7,9 @@ public class Miner {
     public static int DIFFICULTY = 1;
     public IBlockValidator blockValidator;
 
-    public Miner(){}
+    public Miner(IBlockValidator blockValidator) {
+        this.blockValidator = blockValidator;
+    }
 
     public static void setDIFFICULTY(int DIFFICULTY) {
         Miner.DIFFICULTY = DIFFICULTY;

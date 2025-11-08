@@ -12,19 +12,10 @@ import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.List;
 
+// pure
 public class TransactionValidator implements ITransactionValidator{
 
-    private IBlockChainRepository blockChainRepository;
-    private ITransactionPoolRepository transactionPoolRepository;
-
     public TransactionValidator(){}
-
-    public void setBlockChainRepository(IBlockChainRepository blockChainRepository){
-        this.blockChainRepository = blockChainRepository;
-    }
-    public void setTransactionPoolRepository(ITransactionPoolRepository transactionPoolRepository){
-        this.transactionPoolRepository = transactionPoolRepository;
-    }
 
     private boolean isEmitterEqualToReceiver(PublicKey emitter, PublicKey receiver){
        return emitter.equals(receiver);
@@ -37,8 +28,8 @@ public class TransactionValidator implements ITransactionValidator{
         return RsaEncryption.rsaVerify(message, signature, key);
     }
 
-    private boolean userHasSufficientFunds(int amount, PublicKey emitter){
-        return amount > blockChainRepository.getBalance(emitter);
+    private boolean userHasSufficientFunds(int amount, int emitterBalance){
+        return amount > emitterBalance;
     }
     private boolean isTransactionRepeatedInBlockChain(Transaction transaction, List<Block> blockChain){
         for (Block block : blockChain){
@@ -59,19 +50,21 @@ public class TransactionValidator implements ITransactionValidator{
         return false;
     }
 
-    public boolean areTransactionsValid(List<Transaction> transactions){
-        for (Transaction transaction : transactions){
-            if (!isTransactionValid(transaction)){
+    public boolean areTransactionsValid(List<Transaction> transactions, List<Block> blocksChain, List<Integer> emittersBalance){
+        for (int i = 0; i < transactions.size(); i++) {
+            if (!isTransactionValid(transactions.get(i), transactions, blocksChain, emittersBalance.get(i))) {
                 return false;
             }
         }
         return true;
     }
 
-    public boolean isTransactionValid(Transaction transaction) {
-        // replace 20 later
-        var transactionPool = transactionPoolRepository.getTransactions(Chain.TRANSACTION_LIMIT);
-        var blockChain = blockChainRepository.getAllBLocks();
+    public boolean isTransactionValid(
+            Transaction transaction,
+            List<Transaction> transactionPool,
+            List<Block> blockChain,
+            int emitterBalance
+            ) {
 
         IO.println("Checking transaction against blockchain");
         if (isEmitterEqualToReceiver(transaction.emitter, transaction.receiver)){
@@ -82,7 +75,7 @@ public class TransactionValidator implements ITransactionValidator{
             IO.println("transaction invalid: hash mismatch");
             return false;
         }
-        if (!userHasSufficientFunds(transaction.amount, transaction.emitter)){
+        if (!userHasSufficientFunds(transaction.amount, emitterBalance)){
             IO.println("Transaction invalid: emitter doesn't have enough balance");
             return false;
         }

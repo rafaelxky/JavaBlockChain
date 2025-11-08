@@ -18,38 +18,22 @@ public class ChainFactory {
         
     }
 
-    public Chain newInMemoryChain(){
-        List<Block> blockChain = new ArrayList<>();
-        List<Transaction> transactionPool = new ArrayList<>();
-        var transactionPoolRepo = new InMemoryTransactionPoolRepository();
-        var transactionValidator = new TransactionValidator();
-        var blockValidator = new BlockValidator();
+
+    public Chain newInMemoryChain() {
+        // just get and set no validation and no dependencies, inpure
         var blockChainRepo = new InMemoryBlockChain();
-        var miner = new Miner();
+        var transactionPoolRepo = new InMemoryTransactionPoolRepository();
 
-        transactionValidator.setTransactionPoolRepository(transactionPoolRepo);
-        transactionValidator.setBlockChainRepository(blockChainRepo);
+        // pure validation
+        var transactionValidator = new TransactionValidator(blockChainRepo, transactionPoolRepo);
+        var blockValidator = new BlockValidator(transactionValidator, blockChainRepo);
 
-        transactionPoolRepo.setTransactionValidator(transactionValidator);
-        transactionPoolRepo.setTransactions(transactionPool);
+        var miner = new Miner(blockValidator);
 
-        blockValidator.setTransactionValidator(transactionValidator);
-        blockValidator.setBlockChainRepository(blockChainRepo);
-
-        blockChainRepo.setBlockChain(blockChain);
-
-        miner.setBlockValidator(blockValidator);
-
-        var factory = new Chain(
-                transactionPoolRepo,
-                blockChainRepo,
-                transactionValidator,
-                blockValidator,
-                miner
-        );
+        var chain = new Chain(transactionPoolRepo, blockChainRepo, transactionValidator, blockValidator, miner);
 
         blockChainRepo.addBlockToChain(Genesis.createBlock());
 
-        return factory;
+        return chain;
     }
 }

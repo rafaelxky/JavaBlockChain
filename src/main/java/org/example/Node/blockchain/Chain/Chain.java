@@ -41,17 +41,28 @@ public class Chain implements IChain{
         return this.blockChainRepository.getAllBLocks();
     }
 
+    // handles side-effects
     public Block getNewBlock(){
         IO.println("creating new Block");
-        var transactions = transactionPoolRepository.getTransactions(TRANSACTION_LIMIT);
-        transactionPoolRepository.removeTransactions(TRANSACTION_LIMIT);
         var lastBlockHash = blockChainRepository.getLastBlock().getHash();
+        var transactions = transactionPoolRepository.pollTransactions(TRANSACTION_LIMIT);
+        return createNewBlock(transactions, lastBlockHash);
+    }
+
+    // handles just pure logic
+    private Block createNewBlock(List<Transaction> transactions, String lastBlockHash){
         return new Block(transactions, lastBlockHash);
     }
 
     public boolean addTransactionToPool(Transaction transaction){
         IO.println("Adding transaction to pool!");
-        if (transactionValidator.isTransactionValid(transaction)) {
+        if (transactionValidator.isTransactionValid(
+                    transaction,
+                    transactionPoolRepository.getTransactions(TRANSACTION_LIMIT),
+                    blockChainRepository.getAllBLocks(),
+                    blockChainRepository.getBalance(transaction.emitter)
+                )
+        ) {
             IO.println("Transaction added!");
             transactionPoolRepository.addTransaction(transaction);
             return true;
@@ -70,10 +81,6 @@ public class Chain implements IChain{
         IO.println("Block valid");
         blockChainRepository.addBlockToChain(block);
         return true;
-    }
-
-    public void addGenesisBlock(Block block){
-        blockChainRepository.addBlockToChain(block);
     }
 
     public int getBalance(PublicKey account){

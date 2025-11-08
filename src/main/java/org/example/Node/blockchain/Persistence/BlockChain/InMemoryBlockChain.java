@@ -9,13 +9,9 @@ import java.util.List;
 
 public class InMemoryBlockChain implements IBlockChainRepository{
 
-    private List<Block> blockChain = new ArrayList<>();
+    private final List<Block> blockChain = new ArrayList<>();
 
     public InMemoryBlockChain(){}
-
-    public void setBlockChain(List<Block> blockChain){
-        this.blockChain = blockChain;
-    }
 
     @Override
     public List<Block> getAllBLocks() {
